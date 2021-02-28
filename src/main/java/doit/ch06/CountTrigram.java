@@ -10,6 +10,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
@@ -19,11 +20,11 @@ import java.util.StringTokenizer;
 
 public class CountTrigram {
 
-    public static class Map extends Mapper<Text, Text, Text, IntWritable> {
+    public static class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
         private final static IntWritable one = new IntWritable(1);
         private Text trigram = new Text();
 
-        public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
 
             StringTokenizer tokenizer = new StringTokenizer(line, "\t\r\n\f |,!#\"$.'%&=+-_^@`~:?<>(){}[];*/");
@@ -88,7 +89,7 @@ public class CountTrigram {
         job2.setReducerClass(TopN.Reduce.class);
         job2.setNumReduceTasks(1);
 
-        job2.setInputFormatClass(KeyValueTextInputFormat.class);
+        job2.setInputFormatClass(TextInputFormat.class);
         job2.setOutputFormatClass(TextOutputFormat.class);
 
         // input of Job2 is output of Job
