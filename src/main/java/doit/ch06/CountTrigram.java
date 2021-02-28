@@ -69,7 +69,7 @@ public class CountTrigram {
         job.setCombinerClass(Reduce.class);
         job.setReducerClass(Reduce.class);
 
-        job.setInputFormatClass(KeyValueTextInputFormat.class);
+        job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
@@ -89,7 +89,7 @@ public class CountTrigram {
         job2.setReducerClass(TopN.Reduce.class);
         job2.setNumReduceTasks(1);
 
-        job2.setInputFormatClass(TextInputFormat.class);
+        job2.setInputFormatClass(KeyValueTextInputFormat.class);
         job2.setOutputFormatClass(TextOutputFormat.class);
 
         // input of Job2 is output of Job
