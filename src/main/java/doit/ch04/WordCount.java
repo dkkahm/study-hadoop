@@ -58,7 +58,7 @@ public class WordCount {
         job.setOutputValueClass(LongWritable.class);
 
         job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputValueClass(TextOutputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
