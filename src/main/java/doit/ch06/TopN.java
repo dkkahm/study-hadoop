@@ -110,8 +110,8 @@ public class TopN {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
 
-        job.setMapperClass(Mapper.class);
-        job.setReducerClass(Reducer.class);
+        job.setMapperClass(Map.class);
+        job.setReducerClass(Reduce.class);
         job.setNumReduceTasks(1);
 
         job.setInputFormatClass(KeyValueTextInputFormat.class);
