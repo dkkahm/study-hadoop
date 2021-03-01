@@ -19,6 +19,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -127,6 +128,7 @@ public class Facebook {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
+        String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
         Job job = new Job(conf, "Facebook");
 
         job.setJarByClass(Facebook.class);
@@ -139,9 +141,8 @@ public class Facebook {
         job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
+        FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
 
         job.waitForCompletion(true);
     }
