@@ -48,6 +48,7 @@ public class PDFOutputFormat extends FileOutputFormat<Text, PDFWritable> {
             Configuration conf = job.getConfiguration();
             Path name = getDefaultWorkFile(job, null);
             String outfilepath = name.toString();
+            log.error("WWWWWW:" + outfilepath);
             String keyname = key.toString();
             Path file = new Path((outfilepath.substring(0, outfilepath.length() - 16)) + keyname + ".pdf");
             FileSystem fs = file.getFileSystem(conf);
