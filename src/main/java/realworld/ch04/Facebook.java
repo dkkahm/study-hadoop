@@ -47,7 +47,7 @@ public class Facebook {
             for(Friend f2 : friendArray) {
                 FriendPair fpair = new FriendPair(f1, f2);
                 context.write(fpair, farray);
-                log.info(fpair + "....." + farray);
+                log.info("MMMMM:" + fpair + "....." + farray);
             }
         }
 
