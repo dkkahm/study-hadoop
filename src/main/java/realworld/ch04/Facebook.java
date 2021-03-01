@@ -57,6 +57,7 @@ public class Facebook {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String[] pair = key.toString().split(",");
+            log.info("RRRRRRRRRRR6:" + pair);
 
             ArrayList<HashSet<String>> listOfFriendsSet = new ArrayList<>();
             for(Text value : values) {
@@ -67,13 +68,16 @@ public class Facebook {
                 StringTokenizer tokenizer = new StringTokenizer(value.toString(), " ,");
                 while(tokenizer.hasMoreTokens()) {
                     String friend = tokenizer.nextToken();
+                    log.info("RRRRRRRRRRR7:" + friend);
                     if(!friend.equals(pair[0]) && friend.equals(pair[1])) {
                         friendsSet.add(friend);
                     }
                 }
                 log.info("RRRRRRRRRRR5:" + friendsSet);
 
-                listOfFriendsSet.add(friendsSet);
+                if(friendsSet.size() > 0) {
+                    listOfFriendsSet.add(friendsSet);
+                }
             }
             log.info("RRRRRRRRRRR2:" + key.toString() + ":" + listOfFriendsSet.size());
 
