@@ -101,6 +101,8 @@ public class Facebook {
 
         @Override
         protected void reduce(FriendPair key, Iterable<FriendArray> values, Context context) throws IOException, InterruptedException {
+            log.info("RRRR1:" + key);
+
             List<Friend[]> flist = new ArrayList<>();
             List<Friend> commonFriendList = new ArrayList<>();
             int count = 0;
@@ -109,19 +111,26 @@ public class Facebook {
                 Friend[] f = Arrays.copyOf(farray.get(), farray.get().length, Friend[].class);
                 flist.add(f);
                 count ++;
+
+                log.info("RRRR2:" + flist);
             }
+            log.info("RRRR3:" + count);
 
             if(count != 2)
                 return;
 
             for(Friend outerf : flist.get(0)) {
+                log.info("RRRR4:" + outerf);
                 for(Friend innerf : flist.get(1)) {
+                    log.info("RRRR5:" + innerf);
                     if(outerf.equals(innerf))
                         commonFriendList.add(innerf);
                 }
             }
+            log.info("RRRR6:" + commonFriendList);
 
             Friend[] commonFriendsArray = Arrays.copyOf(commonFriendList.toArray(), commonFriendList.toArray().length, Friend[].class);
+            log.info("RRRR7:" + commonFriendsArray);
             context.write(key, new FriendArray(Friend.class, commonFriendsArray));
         }
     }
