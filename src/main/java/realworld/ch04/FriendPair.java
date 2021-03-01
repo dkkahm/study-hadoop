@@ -52,18 +52,30 @@ public class FriendPair implements WritableComparable {
     @Override
     public int compareTo(Object o) {
         FriendPair pair2 = (FriendPair) o;
-        int cmp = -1;
-        if(getFirst().compareTo(pair2.getFirst()) == 0 || getFirst().compareTo(pair2.getSecond()) == 0)
-            cmp = 0;
 
-        if(cmp != 0) {
-            return cmp;
+        Friend this_first = getFirst();
+        Friend this_second = getSecond();
+        if(this_first.compareTo(this_second) > 0) {
+            Friend t = this_first;
+            this_first = this_second;
+            this_second = t;
         }
-        cmp = -1;
-        if(getSecond().compareTo(pair2.getSecond()) == 0 || getSecond().compareTo(pair2.getFirst()) == 0)
-            cmp = 0;
 
-        return cmp;
+        Friend that_first = pair2.getFirst();
+        Friend that_second = pair2.getSecond();
+        if(that_first.compareTo(that_second) > 0) {
+            Friend t = that_first;
+            that_first = that_second;
+            that_second = t;
+        }
+
+        int cmp = this_first.compareTo(that_first);
+        if(cmp != 0) return cmp;
+
+        cmp = this_second.compareTo(that_second);
+        if(cmp != 0) return cmp;
+
+        return 0;
     }
 
     @Override
