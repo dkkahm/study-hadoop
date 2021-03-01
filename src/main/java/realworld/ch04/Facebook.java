@@ -57,7 +57,7 @@ public class Facebook {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String[] pair = key.toString().split(",");
-            log.info("RRRRRRRRRRR6:" + pair);
+            log.info("RRRRRRRRRRR6:" + pair[0] + "," + pair[1]);
 
             ArrayList<HashSet<String>> listOfFriendsSet = new ArrayList<>();
             for(Text value : values) {
