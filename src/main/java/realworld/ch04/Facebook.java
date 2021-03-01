@@ -71,6 +71,7 @@ public class Facebook {
                         friendsSet.add(friend);
                     }
                 }
+                log.info("RRRRRRRRRRR5:" + friendsSet);
 
                 listOfFriendsSet.add(friendsSet);
             }
@@ -78,25 +79,27 @@ public class Facebook {
 
             if(listOfFriendsSet.size() == 2) {
                 listOfFriendsSet.get(0).retainAll(listOfFriendsSet.get(1));
-                log.info("RRRRRRRRRRR3:" + key.toString() + ":" + listOfFriendsSet.get(0).size());
+                if(listOfFriendsSet.get(0).size() > 0) {
+                    log.info("RRRRRRRRRRR3:" + key.toString() + ":" + listOfFriendsSet.get(0).size());
 
-                StringBuilder sb = new StringBuilder();
-                boolean first = true;
+                    StringBuilder sb = new StringBuilder();
+                    boolean first = true;
 
-                for(String friend : listOfFriendsSet.get(0)) {
-                    if(first) {
-                        first = false;
-                    } else {
-                        sb.append(",");
+                    for (String friend : listOfFriendsSet.get(0)) {
+                        if (first) {
+                            first = false;
+                        } else {
+                            sb.append(",");
+                        }
+                        sb.append(friend);
                     }
-                    sb.append(friend);
+
+                    outputValue.set(sb.toString());
+
+                    log.info("RRRRRRRRRRR4:" + key.toString() + ":" + outputValue.toString());
+
+                    context.write(key, outputValue);
                 }
-
-                outputValue.set(sb.toString());
-
-                log.info("RRRRRRRRRRR4:" + key.toString() + ":" + outputValue.toString());
-
-                context.write(key, outputValue);
             }
         }
     }
