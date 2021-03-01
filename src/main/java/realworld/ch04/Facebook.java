@@ -112,7 +112,7 @@ public class Facebook {
                 flist.add(f);
                 count ++;
 
-                log.info("RRRR2:" + flist);
+                log.info("RRRR2:" + f);
             }
             log.info("RRRR3:" + count);
 
