@@ -1,6 +1,8 @@
 package realworld.ch04;
 
 import doit.ch04.WordCount;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.ArrayWritable;
@@ -23,6 +25,8 @@ import java.util.StringTokenizer;
 
 public class Facebook {
     public static class MyMappter extends Mapper<Text, Text, Text, Text> {
+        private static final Log log = LogFactory.getLog(MyMappter.class);
+
         private Text outKey = new Text();
         private Text outValue = new Text();
 
@@ -39,12 +43,15 @@ public class Facebook {
                 } else {
                     outKey.set(friend + "," + thisPerson);
                 }
+                log.info("MMMMMMMMM:" + outKey.toString() + "," + value.toString());
                 context.write(outKey, value);
             }
         }
     }
 
     public static class MyReducer extends Reducer<Text, Text, Text, Text> {
+        private static final Log log = LogFactory.getLog(MyReducer.class);
+
         private Text outputValue = new Text();
 
         @Override
@@ -53,6 +60,8 @@ public class Facebook {
 
             ArrayList<HashSet<String>> listOfFriendsSet = new ArrayList<>();
             for(Text value : values) {
+                log.info("RRRRRRRRRRR:" + key.toString() + "," + value.toString());
+
                 HashSet<String> friendsSet = new HashSet<>();
 
                 StringTokenizer tokenizer = new StringTokenizer(value.toString(), " ,");
@@ -65,9 +74,11 @@ public class Facebook {
 
                 listOfFriendsSet.add(friendsSet);
             }
+            log.info("RRRRRRRRRRR:" + key.toString() + "," + listOfFriendsSet.size());
 
             if(listOfFriendsSet.size() == 2) {
                 listOfFriendsSet.get(0).retainAll(listOfFriendsSet.get(1));
+                log.info("RRRRRRRRRRR:" + key.toString() + "," + listOfFriendsSet.get(0).size());
 
                 StringBuilder sb = new StringBuilder();
                 boolean first = true;
@@ -82,6 +93,8 @@ public class Facebook {
                 }
 
                 outputValue.set(sb.toString());
+
+                log.info("RRRRRRRRRRR:" + key.toString() + "," + outputValue.toString());
 
                 context.write(key, outputValue);
             }
