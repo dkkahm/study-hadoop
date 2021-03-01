@@ -1,14 +1,13 @@
 package realworld.ch04;
 
 import doit.ch04.WordCount;
+import doit.ch07.WordID;
+import doit.ch07.WordIDGroupingComparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.*;
 import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -135,6 +134,23 @@ public class Facebook {
         }
     }
 
+    public static class MyGroupingComparator extends WritableComparator {
+        private Logger log = Logger.getLogger(MyGroupingComparator.class);
+
+        protected MyGroupingComparator() {
+            super(FriendPair.class, true);
+        }
+
+        @Override
+        public int compare(WritableComparable w1, WritableComparable w2) {
+            int result = super.compare(w1, w2);
+
+            log.info("GGGGG:" + w1 + "," + w2 + " => " + result);
+
+            return result;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
@@ -146,6 +162,8 @@ public class Facebook {
 
         job.setOutputKeyClass(FriendPair.class);
         job.setOutputValueClass(FriendArray.class);
+
+        job.setGroupingComparatorClass(MyGroupingComparator.class);
 
         job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setOutputFormatClass(SequenceFileOutputFormat.class);
