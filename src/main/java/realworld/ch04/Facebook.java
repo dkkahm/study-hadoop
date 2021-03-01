@@ -43,7 +43,6 @@ public class Facebook {
                 } else {
                     outKey.set(friend + "," + thisPerson);
                 }
-                log.info("MMMMMMMMM:" + outKey.toString() + ":" + value.toString());
                 context.write(outKey, value);
             }
         }
@@ -57,34 +56,27 @@ public class Facebook {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String[] pair = key.toString().split(",");
-            log.info("RRRRRRRRRRR6:" + pair[0] + "," + pair[1]);
 
             ArrayList<HashSet<String>> listOfFriendsSet = new ArrayList<>();
             for(Text value : values) {
-                log.info("RRRRRRRRRRR1:" + key.toString() + ":" + value.toString());
-
                 HashSet<String> friendsSet = new HashSet<>();
 
                 StringTokenizer tokenizer = new StringTokenizer(value.toString(), " ,");
                 while(tokenizer.hasMoreTokens()) {
                     String friend = tokenizer.nextToken();
-                    log.info("RRRRRRRRRRR7:" + friend);
                     if(!friend.equals(pair[0]) && !friend.equals(pair[1])) {
                         friendsSet.add(friend);
                     }
                 }
-                log.info("RRRRRRRRRRR5:" + friendsSet);
 
                 if(friendsSet.size() > 0) {
                     listOfFriendsSet.add(friendsSet);
                 }
             }
-            log.info("RRRRRRRRRRR2:" + key.toString() + ":" + listOfFriendsSet.size());
 
             if(listOfFriendsSet.size() == 2) {
                 listOfFriendsSet.get(0).retainAll(listOfFriendsSet.get(1));
                 if(listOfFriendsSet.get(0).size() > 0) {
-                    log.info("RRRRRRRRRRR3:" + key.toString() + ":" + listOfFriendsSet.get(0).size());
 
                     StringBuilder sb = new StringBuilder();
                     boolean first = true;
@@ -99,8 +91,6 @@ public class Facebook {
                     }
 
                     outputValue.set(sb.toString());
-
-                    log.info("RRRRRRRRRRR4:" + key.toString() + ":" + outputValue.toString());
 
                     context.write(key, outputValue);
                 }
