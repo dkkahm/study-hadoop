@@ -69,7 +69,7 @@ public class Facebook {
                 while(tokenizer.hasMoreTokens()) {
                     String friend = tokenizer.nextToken();
                     log.info("RRRRRRRRRRR7:" + friend);
-                    if(!friend.equals(pair[0]) && friend.equals(pair[1])) {
+                    if(!friend.equals(pair[0]) && !friend.equals(pair[1])) {
                         friendsSet.add(friend);
                     }
                 }
