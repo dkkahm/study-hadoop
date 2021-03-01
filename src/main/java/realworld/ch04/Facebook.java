@@ -43,7 +43,7 @@ public class Facebook {
                 } else {
                     outKey.set(friend + "," + thisPerson);
                 }
-                log.info("MMMMMMMMM:" + outKey.toString() + "," + value.toString());
+                log.info("MMMMMMMMM:" + outKey.toString() + ":" + value.toString());
                 context.write(outKey, value);
             }
         }
@@ -60,7 +60,7 @@ public class Facebook {
 
             ArrayList<HashSet<String>> listOfFriendsSet = new ArrayList<>();
             for(Text value : values) {
-                log.info("RRRRRRRRRRR:" + key.toString() + "," + value.toString());
+                log.info("RRRRRRRRRRR1:" + key.toString() + ":" + value.toString());
 
                 HashSet<String> friendsSet = new HashSet<>();
 
@@ -74,11 +74,11 @@ public class Facebook {
 
                 listOfFriendsSet.add(friendsSet);
             }
-            log.info("RRRRRRRRRRR:" + key.toString() + "," + listOfFriendsSet.size());
+            log.info("RRRRRRRRRRR2:" + key.toString() + ":" + listOfFriendsSet.size());
 
             if(listOfFriendsSet.size() == 2) {
                 listOfFriendsSet.get(0).retainAll(listOfFriendsSet.get(1));
-                log.info("RRRRRRRRRRR:" + key.toString() + "," + listOfFriendsSet.get(0).size());
+                log.info("RRRRRRRRRRR3:" + key.toString() + ":" + listOfFriendsSet.get(0).size());
 
                 StringBuilder sb = new StringBuilder();
                 boolean first = true;
@@ -94,7 +94,7 @@ public class Facebook {
 
                 outputValue.set(sb.toString());
 
-                log.info("RRRRRRRRRRR:" + key.toString() + "," + outputValue.toString());
+                log.info("RRRRRRRRRRR4:" + key.toString() + ":" + outputValue.toString());
 
                 context.write(key, outputValue);
             }
