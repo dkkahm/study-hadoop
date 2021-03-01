@@ -42,7 +42,7 @@ public class PDFInputFormat extends FileInputFormat<Text, PDFWritable> {
 
         @Override
         public void initialize(InputSplit inputSplit, TaskAttemptContext context) throws IOException, InterruptedException {
-            this.split = (FileSplit) split;
+            this.split = (FileSplit) inputSplit;
             this.conf = context.getConfiguration();
         }
 
